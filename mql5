@@ -1,0 +1,93 @@
+mql5
+//+------------------------------------------------------------------+
+//|                                            Tillson TMA T3.mq5    |
+//|                        Copyright 2022, Forex Robot Easy Team     |
+//|                                        https://forexroboteasy.com |
+//+------------------------------------------------------------------+
+
+#property copyright 'Copyright 2022, Forex Robot Easy Team'
+#property link      'https://forexroboteasy.com'
+
+//+------------------------------------------------------------------+
+//|                     Tillson TMA T3 Indicator                      |
+//|                   Calculates Low R2 and High R3                    |
+//|              Generates trading signals and price range             |
+//+------------------------------------------------------------------+
+
+//+------------------------------------------------------------------+
+//|                             Inputs                               |
+//+------------------------------------------------------------------+
+input double Price;         // Price (P)
+input double High;          // Highest Price (High)
+input double Low;           // Lowest Price (Low)
+
+//+------------------------------------------------------------------+
+//|                     Calculate Low R2                              |
+//+------------------------------------------------------------------+
+double CalculateLowR2(double Price, double High, double Low)
+{
+   double LowR2 = Price * (High - Low);
+   return LowR2;
+}
+
+//+------------------------------------------------------------------+
+//|                    Calculate High R3                             |
+//+------------------------------------------------------------------+
+double CalculateHighR3(double High)
+{
+   double HighR3 = MathPow(High, 2);
+   return HighR3;
+}
+
+//+------------------------------------------------------------------+
+//|                   Generate Trading Signals                        |
+//+------------------------------------------------------------------+
+void GenerateTradingSignals(double LowR2, double HighR3)
+{
+   // Implement logic to identify potential market turning points
+   // based on Low R2 and High R3 values
+   // Example:
+   if (LowR2 > HighR3)
+   {
+      // Buy signal
+      Print('Buy signal generated');
+   }
+   else if (LowR2 < HighR3)
+   {
+      // Sell signal
+      Print('Sell signal generated');
+   }
+   else
+   {
+      // No signal
+      Print('No signal generated');
+   }
+}
+
+//+------------------------------------------------------------------+
+//|                    Forecast Price Range                           |
+//+------------------------------------------------------------------+
+void ForecastPriceRange(double LowR2, double HighR3)
+{
+   // Use Low R2 to forecast lower limit of the price range
+   double lowerLimit = LowR2;
+
+   // Use High R3 to predict upper limit of the price range
+   double upperLimit = HighR3;
+
+   Print('Price range forecast:');
+   Print('Lower limit: ', lowerLimit);
+   Print('Upper limit: ', upperLimit);
+}
+
+//+------------------------------------------------------------------+
+//|                            OnTick                                |
+//+------------------------------------------------------------------+
+void OnTick()
+{
+   double LowR2 = CalculateLowR2(Price, High, Low);
+   double HighR3 = CalculateHighR3(High);
+
+   GenerateTradingSignals(LowR2, HighR3);
+   ForecastPriceRange(LowR2, HighR3);
+}
